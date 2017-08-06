@@ -4,16 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.5.7",
+    "ejs-locals": "^1.0.2",
+    "express": "^4.15.3",
     "handlebars": "^4.0.10",
     "jquery": "^1.12.4",
-    "requirejs": "^2.3.4",
-    "todomvc-app-css": "^2.1.0",
-    "todomvc-common": "^1.0.3"
+    "nodemon": "^1.11.0",
+    "requirejs": "^2.3.4"
   }
 }
