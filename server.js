@@ -8,6 +8,6 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('ejs', engine);
 
-let server = app.use(express.static('views')).listen(port, () => {
+let server = app.use(express.static('public')).listen(port, () => {
     console.log(`Express server has started on port:${port}`);
 });
