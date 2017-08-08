@@ -1,6 +1,10 @@
 define([], function(){
     requirejs([
-        "jquery"
-    ], function($) {
+        'todo'
+    ], function(todo) {
+        todo.initialize({
+            'todoListWrapper' : '#todo-list',
+            'todoDom' : '#todo-dom'
+        })
     });
 })

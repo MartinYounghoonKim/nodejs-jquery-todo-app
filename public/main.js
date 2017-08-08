@@ -1,23 +1,20 @@
 requirejs.config({
     baseUrl: './',
     paths:{
-        'jquery': 'lib/jquery-1.9.1.min',
+        'jquery': 'lib/jquery-1.9.1.min'
+        ,'handlebars' : 'lib/handlebars-v4.0.5'
 
         //Controller
-        'Main' : 'controller/Main'
+        ,'Main' : 'controller/Main'
+        //api
+        ,'ApiTodo' : 'api/ApiTodo'
+        //Module
+        ,'todo' : 'module/todo'
     },
     shim:{
         'jquery':{
             exports:'$'
-        },
-		'jqueryUI':{
-			deps: ['jquery'],
-			exports :'jqueryUI'
-		},
-		'jqueryEasing':{
-			deps: ['jquery'],
-			exports :'jqueryEasing'
-		}
+        }
     }
 });
 

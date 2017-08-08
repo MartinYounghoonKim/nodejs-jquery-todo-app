@@ -1,0 +1,21 @@
+{
+	"type": "Collection",
+	"properties": {
+		"isCompleted": {
+			"name": "isCompleted",
+			"type": "boolean",
+			"typeLabel": "boolean",
+			"required": true,
+			"id": "isCompleted",
+			"order": 0
+		},
+		"todo": {
+			"name": "todo",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "todo",
+			"order": 1
+		}
+	}
+}
