@@ -6,7 +6,8 @@ define([], function(){
             'todoListWrapper' : '#todo-list',
             'todoDom' : '#todo-dom',
             'userTextingArea' : '#new-todo',
-            'deleteTodoButton' : '.destroy'
+            'deleteTodoButton' : '.destroy',
+            'completeCheckBox':'.view .toggle' 
         })
     });
 })

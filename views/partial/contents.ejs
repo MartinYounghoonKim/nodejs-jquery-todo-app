@@ -4,7 +4,7 @@
 	<ul id="todo-list"></ul>
 	<script id="todo-dom" type="text/x-handlebars-template">
 		{{#Todos}}
-		<li data-primary-key={{idx}}>
+		<li data-primary-key={{idx}} class="{{#if isCompleted}}completed{{/if}}">
 			<div class="view">
 				<input class="toggle" type="checkbox" {{#if isCompleted}}checked{{/if}}>
 				<label>{{todo}}</label>

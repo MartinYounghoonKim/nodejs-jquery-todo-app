@@ -38,5 +38,19 @@ module.exports = (app,bodyParser, connection)=>{
                 res.send(result);
             }
         })
-    })
+    });
+    app.post('/api/CheckTodo',(req,res)=>{
+        let isCompleted = req.body.isCompleted;
+        let idx = req.body.idx;
+        let updateQuery='UPDATE todos SET isCompleted=? WHERE idx=?';
+
+        connection.query(updateQuery,[isCompleted, idx], (err, result, fields)=>{
+            if(err){
+                console.log(err);
+                res.status(500).send("Error");
+            } else {
+                res.send(result);
+            }
+        })
+    });
 }

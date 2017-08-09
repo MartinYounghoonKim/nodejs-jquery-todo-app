@@ -16,12 +16,14 @@ define([
                 todoListWrapper : $(dom.todoListWrapper),
                 todoDom : $(dom.todoDom),
                 userTextingArea : $(dom.userTextingArea),
-                deleteTodoButton : dom.deleteTodoButton
+                deleteTodoButton : dom.deleteTodoButton,
+                completeCheckBox : dom.completeCheckBox
             }
         }
         function bindEvents(){
             obj.userTextingArea.on("keydown", function(e){ addTodoList(e) });
             $(document).on("click", obj.deleteTodoButton, function(){ deleteTodoList($(this))} );
+            $(document).on("click", obj.completeCheckBox, function(){ toggleCompleted($(this)) } );
         }
         function renderTodoList(){
             ApiTodo('GET','/api/Todos','JSON','', processApi);
@@ -52,8 +54,26 @@ define([
         function deleteTodoList(me){
             var idx = me.closest("li").data("primary-key");
             ApiTodo('POST','/api/DeleteTodo','Text',{idx:idx});
-            initializeTodoList();
-            renderTodoList();
+            me.closest("li").remove();
+            /*
+                지울때, 깜빡임 이슈로 임시 제거
+                initializeTodoList();
+                renderTodoList();
+            */
+        }
+
+        function toggleCompleted(me){
+            var todoList = me.closest("li");
+            var isTodoCompleted = !todoList.hasClass("completed");
+            var idx = todoList.data("primary-key");
+
+            if(!isTodoCompleted){
+                todoList.removeClass("completed");
+            }else {
+                todoList.addClass("completed");
+            }
+            isTodoCompleted === true ? isTodoCompleted = 1 : isTodoCompleted =0;
+            ApiTodo('POST','/api/CheckTodo','Text',{idx:idx, isCompleted:isTodoCompleted} );
         }
         return {
             initialize :initialize
