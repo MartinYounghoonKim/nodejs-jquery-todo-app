@@ -4,7 +4,8 @@ define([], function(){
     ], function(todo) {
         todo.initialize({
             'todoListWrapper' : '#todo-list',
-            'todoDom' : '#todo-dom'
+            'todoDom' : '#todo-dom',
+            'userTextingArea' : '#new-todo'
         })
     });
 })

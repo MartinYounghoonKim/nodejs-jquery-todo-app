@@ -9,15 +9,20 @@ define([
         function initialize(dom){
             setSelector(dom);
             renderTodoList();
+            bindEvents();
         }
         function setSelector(dom){
             obj = {
                 todoListWrapper : $(dom.todoListWrapper),
-                todoDom : $(dom.todoDom)
+                todoDom : $(dom.todoDom),
+                userTextingArea : $(dom.userTextingArea)
             }
         }
+        function bindEvents(){
+            obj.userTextingArea.on("keydown", function(e){ addTodoList(e) })
+        }
         function renderTodoList(){
-            ApiTodo('GET','http://localhost:2403/todos','JSON', processApi);
+            ApiTodo('GET','/api/Todos','JSON','', processApi);
             function processApi(result){
                 var todoDom = obj.todoDom.html();
                 var templete = Handlebars.compile(todoDom);
@@ -26,7 +31,23 @@ define([
                 obj.todoListWrapper.append(preparedDom);
             }
         }
-        function bindEvents(){
+
+        function addTodoList(evt){
+            var userText = evt.target.value;
+            if(!userText || evt.keyCode !== 13){
+                return false;
+            }
+            ApiTodo('POST','/api/Todos','Text',{text:userText});
+            initializeTodoList();
+            renderTodoList();
+            evt.target.value="";
+        }
+
+        function initializeTodoList(){
+            obj.todoListWrapper.children('li').remove();
+        }
+
+        function deleteTodoList(){
 
         }
         return {
