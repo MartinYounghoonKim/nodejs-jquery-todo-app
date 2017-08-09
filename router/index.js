@@ -30,7 +30,7 @@ module.exports = (app,bodyParser, connection)=>{
         let idx = req.body.idx;
         let deleteQuery='DELETE FROM todos WHERE idx=?';
 
-        connection.query(insertQuery,[text], (err, result, fields)=>{
+        connection.query(deleteQuery,[idx], (err, result, fields)=>{
             if(err){
                 console.log(err);
                 res.status(500).send("Error");

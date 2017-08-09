@@ -15,11 +15,13 @@ define([
             obj = {
                 todoListWrapper : $(dom.todoListWrapper),
                 todoDom : $(dom.todoDom),
-                userTextingArea : $(dom.userTextingArea)
+                userTextingArea : $(dom.userTextingArea),
+                deleteTodoButton : dom.deleteTodoButton
             }
         }
         function bindEvents(){
-            obj.userTextingArea.on("keydown", function(e){ addTodoList(e) })
+            obj.userTextingArea.on("keydown", function(e){ addTodoList(e) });
+            $(document).on("click", obj.deleteTodoButton, function(){ deleteTodoList($(this))} );
         }
         function renderTodoList(){
             ApiTodo('GET','/api/Todos','JSON','', processApi);
@@ -47,8 +49,11 @@ define([
             obj.todoListWrapper.children('li').remove();
         }
 
-        function deleteTodoList(){
-
+        function deleteTodoList(me){
+            var idx = me.closest("li").data("primary-key");
+            ApiTodo('POST','/api/DeleteTodo','Text',{idx:idx});
+            initializeTodoList();
+            renderTodoList();
         }
         return {
             initialize :initialize
