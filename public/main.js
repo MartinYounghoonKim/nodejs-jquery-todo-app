@@ -7,9 +7,12 @@ requirejs.config({
         //Controller
         ,'Main' : 'controller/Main'
         //api
+        ,'ApiCore' : 'api/ApiCore'
         ,'ApiTodo' : 'api/ApiTodo'
         //Module
         ,'todo' : 'module/todo'
+        ,'addTodos' : 'module/addTodos'
+        ,'renderingTodos' : 'module/renderingTodos'
     },
     shim:{
         'jquery':{

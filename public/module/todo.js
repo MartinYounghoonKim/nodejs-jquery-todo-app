@@ -2,14 +2,19 @@ define([
     'jquery'
     ,'ApiTodo'
     ,'handlebars'
-], function($, ApiTodo, Handlebars){
+    ,'addTodos'
+    ,'renderingTodos'
+], function($, ApiTodo, Handlebars, addTodos, renderingTodos){
     (function(){}())
     var todo = (function(){
         var obj, selector;
         function initialize(dom){
             setSelector(dom);
-            renderTodoList();
             bindEvents();
+            ApiTodo.render({
+                templeteDom : obj.todoDom.html(),
+                bindingTarget : obj.todoListWrapper
+            });
         }
         function setSelector(dom){
             obj = {
@@ -21,45 +26,32 @@ define([
             }
         }
         function bindEvents(){
-            obj.userTextingArea.on("keydown", function(e){ addTodoList(e) });
+            obj.userTextingArea.on("keydown", function(e){
+                addTodos({
+                    text : e,
+                    templeteDom : obj.todoDom.html(),
+                    bindingTarget : obj.todoListWrapper
+                })
+            });
             $(document).on("click", obj.deleteTodoButton, function(){ deleteTodoList($(this))} );
             $(document).on("click", obj.completeCheckBox, function(){ toggleCompleted($(this)) } );
         }
-        function renderTodoList(){
-            ApiTodo('GET','/api/Todos','JSON','', processApi);
-            function processApi(result){
-                var todoDom = obj.todoDom.html();
-                var templete = Handlebars.compile(todoDom);
-                var data = { "Todos" : result };
-                var preparedDom = templete(data);
-                obj.todoListWrapper.append(preparedDom);
+
+        function deleteTodoList($buttonElement){
+            var primaryKey = getParentElement($buttonElement).primaryKey;
+            ApiTodo.deleteTodo({ primaryKey : primaryKey });
+            ApiTodo.render({
+                templeteDom : obj.todoDom.html(),
+                bindingTarget : obj.todoListWrapper
+            });
+
+        }
+
+        function getParentElement(obj){
+            return {
+                parentElement : obj.closest("li"),
+                primaryKey : obj.closest("li").data("primary-key")
             }
-        }
-
-        function addTodoList(evt){
-            var userText = evt.target.value;
-            if(!userText || evt.keyCode !== 13){
-                return false;
-            }
-            ApiTodo('POST','/api/Todos','Text',{text:userText});
-            initializeTodoList();
-            renderTodoList();
-            evt.target.value="";
-        }
-
-        function initializeTodoList(){
-            obj.todoListWrapper.children('li').remove();
-        }
-
-        function deleteTodoList(me){
-            var idx = me.closest("li").data("primary-key");
-            ApiTodo('POST','/api/DeleteTodo','Text',{idx:idx});
-            me.closest("li").remove();
-            /*
-                지울때, 깜빡임 이슈로 임시 제거
-                initializeTodoList();
-                renderTodoList();
-            */
         }
 
         function toggleCompleted(me){
