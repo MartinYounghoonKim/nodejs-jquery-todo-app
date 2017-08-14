@@ -13,6 +13,7 @@ requirejs.config({
         ,'todo' : 'module/todo'
         ,'addTodos' : 'module/addTodos'
         ,'renderingTodos' : 'module/renderingTodos'
+        ,'deleteTodo' : 'module/deleteTodo'
     },
     shim:{
         'jquery':{

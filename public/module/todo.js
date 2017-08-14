@@ -4,7 +4,8 @@ define([
     ,'handlebars'
     ,'addTodos'
     ,'renderingTodos'
-], function($, ApiTodo, Handlebars, addTodos, renderingTodos){
+    ,'deleteTodo'
+], function($, ApiTodo, Handlebars, addTodos, renderingTodos,deleteTodo){
     (function(){}())
     var todo = (function(){
         var obj, selector;
@@ -38,13 +39,12 @@ define([
         }
 
         function deleteTodoList($buttonElement){
-            var primaryKey = getParentElement($buttonElement).primaryKey;
-            ApiTodo.deleteTodo({ primaryKey : primaryKey });
-            ApiTodo.render({
-                templeteDom : obj.todoDom.html(),
-                bindingTarget : obj.todoListWrapper
+            const primaryKey =  getParentElement($buttonElement).primaryKey;
+            deleteTodo({
+                primaryKey : primaryKey,
+                templeteDom :obj.todoDom.html(),
+                bindingTarget :obj.todoListWrapper
             });
-
         }
 
         function getParentElement(obj){

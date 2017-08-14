@@ -4,10 +4,15 @@ define([
 ], function($,ApiTodo){
 	const deleteTodo = (options)=>{
 		const primaryKey = options.primaryKey;
+		const templeteDom = options.templeteDom;
+		const bindingTarget = options.bindingTarget;
 		ApiTodo.deleteTodo({
-			primaryKey :primaryKey,
+			primaryKey :primaryKey
+		});
+		ApiTodo.render({
 			templeteDom : templeteDom,
 			bindingTarget : bindingTarget
-		});
+		})
 	}
+	return deleteTodo;
 })
