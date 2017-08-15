@@ -7,7 +7,8 @@ define([], function(){
             'todoDom' : '#todo-dom',
             'userTextingArea' : '#new-todo',
             'deleteTodoButton' : '.destroy',
-            'completeCheckBox':'.view .toggle' 
+            'completeCheckBox':'.view .toggle',
+            'completeAllCheckBox' : "#toggle-all"
         })
     });
 })

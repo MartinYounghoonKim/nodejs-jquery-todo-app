@@ -23,7 +23,8 @@ define([
             bindEvents();
             ApiTodo.render({
                 templeteDom : obj.todoDom.html(),
-                bindingTarget : obj.todoListWrapper
+                bindingTarget : obj.todoListWrapper,
+                checkCompletedAllFunction : checkedCompletedAll
             });
         }
         function setSelector(dom){
@@ -32,7 +33,8 @@ define([
                 todoDom : $(dom.todoDom),
                 userTextingArea : $(dom.userTextingArea),
                 deleteTodoButton : dom.deleteTodoButton,
-                completeCheckBox : dom.completeCheckBox
+                completeCheckBox : dom.completeCheckBox,
+                completeAllCheckBox : $(dom.completeAllCheckBox)
             }
         }
         function bindEvents(){
@@ -63,18 +65,16 @@ define([
             }
         }
 
-        function toggleCompleted(me){
-            var todoList = me.closest("li");
-            var isTodoCompleted = !todoList.hasClass("completed");
-            var idx = todoList.data("primary-key");
+        function toggleCompleted($checkboxElement){
+            const primaryKey = getParentElement($checkboxElement).primaryKey;
+            const todoList = getParentElement($checkboxElement).parentElement;
 
-            if(!isTodoCompleted){
-                todoList.removeClass("completed");
-            }else {
-                todoList.addClass("completed");
-            }
-            isTodoCompleted === true ? isTodoCompleted = 1 : isTodoCompleted =0;
-            ApiTodo('POST','/api/CheckTodo','Text',{idx:idx, isCompleted:isTodoCompleted} );
+            checkCompleted.completedTodo(todoList, primaryKey);
+            checkedCompletedAll();
+        }
+
+        function checkedCompletedAll(){
+            checkCompleted.isCompletedAllTodos(obj.completeCheckBox, obj.completeAllCheckBox);
         }
         return {
             initialize :initialize

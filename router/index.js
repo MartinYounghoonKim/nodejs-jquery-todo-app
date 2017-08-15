@@ -53,4 +53,15 @@ module.exports = (app,bodyParser, connection)=>{
             }
         })
     });
+    app.get('/api/CheckTodoAll', (req,res)=>{
+        let selectQuery = 'SELECT isCompleted FROM todos WHERE isCompleted=1';
+        connection.query(selectQuery, (err,result,fields)=>{
+            if(err){
+                console.log(err);
+                res.status(500).send("Error");
+            } else {
+                res.send(result);
+            }
+        })
+    })
 }
