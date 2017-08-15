@@ -14,13 +14,9 @@ define([
 			return false;
 		}
 		ApiTodo.add({ text : userText });
-		ApiTodo.render({
-			templeteDom : templeteDom,
-			bindingTarget : bindingTarget
-		});
 		textElement.target.value="";
 	};
-	
+
 	const isTextEmpty = (evt)=>{
 		let userText = evt.target.value;
 		if(userText){

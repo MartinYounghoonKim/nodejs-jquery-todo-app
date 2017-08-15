@@ -21,11 +21,13 @@ define([
         function initialize(dom){
             setSelector(dom);
             bindEvents();
-            ApiTodo.render({
+            /*ApiTodo.render({
                 templeteDom : obj.todoDom.html(),
                 bindingTarget : obj.todoListWrapper,
                 checkCompletedAllFunction : checkedCompletedAll
-            });
+            });*/
+            renderingTodoList();
+
         }
         function setSelector(dom){
             obj = {
@@ -39,14 +41,27 @@ define([
         }
         function bindEvents(){
             obj.userTextingArea.on("keydown", function(e){
-                addTodos({
-                    text : e,
-                    templeteDom : obj.todoDom.html(),
-                    bindingTarget : obj.todoListWrapper
-                })
+                addTodo(e);
             });
             $(document).on("click", obj.deleteTodoButton, function(){ deleteTodoList($(this))} );
             $(document).on("click", obj.completeCheckBox, function(){ toggleCompleted($(this)) } );
+        }
+
+        function renderingTodoList(){
+            renderingTodos({
+                templeteDom : obj.todoDom.html(),
+                bindingTarget : obj.todoListWrapper,
+                checkCompletedAllFunction : checkedCompletedAll
+            });
+        }
+
+        function addTodo(evt){
+            addTodos({
+                text : evt,
+                templeteDom : obj.todoDom.html(),
+                bindingTarget : obj.todoListWrapper
+            });
+            renderingTodoList();
         }
 
         function deleteTodoList($buttonElement){
@@ -56,6 +71,7 @@ define([
                 templeteDom :obj.todoDom.html(),
                 bindingTarget :obj.todoListWrapper
             });
+            renderingTodoList();
         }
 
         function getParentElement(obj){

@@ -36,7 +36,7 @@ define([
             ApiCore('GET','/api/CheckTodoAll','JSON','')
             .then(function(data){
                 const isAllCompleted = data.Todos.length == completedCount;
-                console.log(completedCount)
+
                 if(isAllCompleted){
                     completeAllCheckBox.prop("checked","checked");
                 } else {

@@ -9,10 +9,6 @@ define([
 		ApiTodo.deleteTodo({
 			primaryKey :primaryKey
 		});
-		ApiTodo.render({
-			templeteDom : templeteDom,
-			bindingTarget : bindingTarget
-		})
 	}
 	return deleteTodo;
 })
