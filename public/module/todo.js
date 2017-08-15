@@ -5,7 +5,16 @@ define([
     ,'addTodos'
     ,'renderingTodos'
     ,'deleteTodo'
-], function($, ApiTodo, Handlebars, addTodos, renderingTodos,deleteTodo){
+    ,'checkCompleted'
+], function(
+    $
+    ,ApiTodo
+    ,Handlebars
+    ,addTodos
+    ,renderingTodos
+    ,deleteTodo
+    ,checkCompleted
+){
     (function(){}())
     var todo = (function(){
         var obj, selector;

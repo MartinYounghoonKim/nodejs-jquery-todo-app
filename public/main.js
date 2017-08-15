@@ -14,6 +14,7 @@ requirejs.config({
         ,'addTodos' : 'module/addTodos'
         ,'renderingTodos' : 'module/renderingTodos'
         ,'deleteTodo' : 'module/deleteTodo'
+        ,'checkCompleted' : 'module/checkCompleted'
     },
     shim:{
         'jquery':{
