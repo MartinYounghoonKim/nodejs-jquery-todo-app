@@ -43,6 +43,14 @@ define([
                     completeAllCheckBox.removeProp("checked");
                 }
             })
+        },
+        checkTodo:(options)=>{
+            const primaryKey = options.primaryKey;
+            const isCompleted = options.isCompleted;
+            ApiCore('POST','/api/CheckTodo','Text', { idx:primaryKey, isCompleted:isCompleted })
+            .then(function(data){
+
+            })
         }
     }
 

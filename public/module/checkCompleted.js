@@ -22,7 +22,7 @@ define([
         const isCompletedAllTodos = (inputElement, $allInputElement)=>{
             const completeAllCheckBox = $allInputElement;
             const completedCount = $(inputElement).size();
-            
+
             ApiTodo.isCompletedAll(completedCount, completeAllCheckBox);
         }
         return {

@@ -17,19 +17,14 @@ define([
 ){
     (function(){}())
     var todo = (function(){
-        var obj, selector;
-        function initialize(dom){
+        let obj, selector;
+        const initialize = (dom) =>{
             setSelector(dom);
             bindEvents();
-            /*ApiTodo.render({
-                templeteDom : obj.todoDom.html(),
-                bindingTarget : obj.todoListWrapper,
-                checkCompletedAllFunction : checkedCompletedAll
-            });*/
             renderingTodoList();
-
         }
-        function setSelector(dom){
+        
+        const setSelector = (dom) =>{
             obj = {
                 todoListWrapper : $(dom.todoListWrapper),
                 todoDom : $(dom.todoDom),
@@ -39,7 +34,8 @@ define([
                 completeAllCheckBox : $(dom.completeAllCheckBox)
             }
         }
-        function bindEvents(){
+
+        const bindEvents =()=>{
             obj.userTextingArea.on("keydown", function(e){
                 addTodo(e);
             });
@@ -54,17 +50,17 @@ define([
                 checkCompletedAllFunction : checkedCompletedAll
             });
         }
-
-        function addTodo(evt){
+        const addTodo = (evt) =>{
             addTodos({
                 text : evt,
                 templeteDom : obj.todoDom.html(),
                 bindingTarget : obj.todoListWrapper
             });
-            renderingTodoList();
+            // TODO: 랜더링되는 부분
+            //renderingTodoList();
         }
 
-        function deleteTodoList($buttonElement){
+        const deleteTodoList = ($buttonElement) =>{
             const primaryKey =  getParentElement($buttonElement).primaryKey;
             deleteTodo({
                 primaryKey : primaryKey,
@@ -74,14 +70,12 @@ define([
             renderingTodoList();
         }
 
-        function getParentElement(obj){
-            return {
-                parentElement : obj.closest("li"),
-                primaryKey : obj.closest("li").data("primary-key")
-            }
-        }
+        const getParentElement = (obj) => ({
+            parentElement : obj.closest("li"),
+            primaryKey : obj.closest("li").data("primary-key")
+        });
 
-        function toggleCompleted($checkboxElement){
+        const toggleCompleted = ($checkboxElement)=>{
             const primaryKey = getParentElement($checkboxElement).primaryKey;
             const todoList = getParentElement($checkboxElement).parentElement;
 
@@ -90,7 +84,7 @@ define([
         }
 
         function checkedCompletedAll(){
-            checkCompleted.isCompletedAllTodos(obj.completeCheckBox, obj.completeAllCheckBox);
+            //checkCompleted.isCompletedAllTodos(obj.completeCheckBox, obj.completeAllCheckBox);
         }
         return {
             initialize :initialize
