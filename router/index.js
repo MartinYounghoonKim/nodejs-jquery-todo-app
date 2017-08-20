@@ -64,4 +64,15 @@ module.exports = (app,bodyParser, connection)=>{
             }
         })
     })
+    app.post('/api/CheckTodoAll', (req,res)=>{
+        const isCompletedAllTodos = req.body.isCompleted;
+        let updateQuery = 'UPDATE todos SET isCompleted=?';
+        connection.query(updateQuery,[isCompletedAllTodos], (err,result,fields)=>{
+            if(err){
+                res.status(500).send("Error");
+            } else {
+                res.send(result);
+            }
+        })
+    })
 }

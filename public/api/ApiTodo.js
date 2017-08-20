@@ -31,26 +31,25 @@ define([
             const isCompleted = options.isCompleted;
             ApiCore('POST','/api/CheckTodo','Text',{ idx:primaryKey, isCompleted : isCompleted });
         },
-        isCompletedAll:(completedCount, $allInputElement)=>{
-            const completeAllCheckBox = $allInputElement;
-            ApiCore('GET','/api/CheckTodoAll','JSON','')
-            .then(function(data){
-                const isAllCompleted = data.Todos.length == completedCount;
+        isCompletedAll:(completedCount)=>{
+            return new Promise( function(resolve, reject){
+                ApiCore('GET','/api/CheckTodoAll','JSON','')
+                .then( function(data){
+                    const isAllCompleted = data.Todos.length == completedCount;
 
-                if(isAllCompleted){
-                    completeAllCheckBox.prop("checked","checked");
-                } else {
-                    completeAllCheckBox.removeProp("checked");
-                }
-            })
+                    resolve(isAllCompleted);
+                });
+            });
         },
         checkTodo:(options)=>{
             const primaryKey = options.primaryKey;
             const isCompleted = options.isCompleted;
             ApiCore('POST','/api/CheckTodo','Text', { idx:primaryKey, isCompleted:isCompleted })
-            .then(function(data){
+        },
+        completTodoAll : (completeTodo) =>{
+            const isCompleteAllTodo = completeTodo;
 
-            })
+            ApiCore('POST','/api/CheckTodoAll','Text', { isCompleted:isCompleteAllTodo })
         }
     }
 

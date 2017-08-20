@@ -1,6 +1,5 @@
 define([
     'jquery'
-    ,'ApiTodo'
     ,'handlebars'
     ,'addTodos'
     ,'renderingTodos'
@@ -8,7 +7,6 @@ define([
     ,'checkCompleted'
 ], function(
     $
-    ,ApiTodo
     ,Handlebars
     ,addTodos
     ,renderingTodos
@@ -23,7 +21,7 @@ define([
             bindEvents();
             renderingTodoList();
         }
-        
+
         const setSelector = (dom) =>{
             obj = {
                 todoListWrapper : $(dom.todoListWrapper),
@@ -41,13 +39,14 @@ define([
             });
             $(document).on("click", obj.deleteTodoButton, function(){ deleteTodoList($(this))} );
             $(document).on("click", obj.completeCheckBox, function(){ toggleCompleted($(this)) } );
+            obj.completeAllCheckBox.on("click",function(){ checkCompleteAll($(this)) })
         }
 
         function renderingTodoList(){
             renderingTodos({
                 templeteDom : obj.todoDom.html(),
                 bindingTarget : obj.todoListWrapper,
-                checkCompletedAllFunction : checkedCompletedAll
+                checkCompletedAllFunction : autoCheckedCompletedAll
             });
         }
         const addTodo = (evt) =>{
@@ -55,9 +54,10 @@ define([
                 text : evt,
                 templeteDom : obj.todoDom.html(),
                 bindingTarget : obj.todoListWrapper
-            });
-            // TODO: 랜더링되는 부분
-            //renderingTodoList();
+            })
+            .then( (data)=>{
+                renderingTodoList();
+            })
         }
 
         const deleteTodoList = ($buttonElement) =>{
@@ -80,11 +80,35 @@ define([
             const todoList = getParentElement($checkboxElement).parentElement;
 
             checkCompleted.completedTodo(todoList, primaryKey);
-            checkedCompletedAll();
+            autoCheckedCompletedAll();
         }
 
-        function checkedCompletedAll(){
-            //checkCompleted.isCompletedAllTodos(obj.completeCheckBox, obj.completeAllCheckBox);
+        const autoCheckedCompletedAll = () =>{
+            checkCompleted.isCompletedAllTodos(obj.completeCheckBox)
+            .then((isCompletedAll)=>{
+                if(isCompletedAll) {
+                    obj.completeAllCheckBox.prop("checked","checked");
+                } else {
+                    obj.completeAllCheckBox.removeProp("checked");
+                }
+            });
+        };
+
+        const checkCompleteAll=()=>{
+            const $checkBoxElement = $(obj.completeCheckBox);
+            const todoList = getParentElement($checkBoxElement).parentElement;
+
+            checkCompleted.isCompletedAllTodos(obj.completeCheckBox)
+            .then((isCompletedAll)=>{
+                let isCompletedAllTodo = !isCompletedAll;
+
+                checkCompleted.completedAllTodos({
+                    completeAllCheckBox :obj.completeAllCheckBox,
+                    completeCheckBox : $(obj.completeCheckBox),
+                    isCompletedAllTodo : isCompletedAllTodo,
+                    todoList : todoList
+                });
+            });
         }
         return {
             initialize :initialize

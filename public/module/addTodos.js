@@ -1,21 +1,27 @@
 define([
 	'jquery'
 	,'ApiTodo'
-	,'ApiTodo'
-], function($, ApiTodo, ApiTodo){
+], function(
+	$
+	,ApiTodo
+){
 	const keyCode_enter = 13;
-	const addTodoList = (options) =>{
+	const addTodoList = (options) => {
 		const textElement = options.text;
 		const userText = textElement.target.value;
 		const templeteDom = options.templeteDom;
 		const bindingTarget = options.bindingTarget;
 
-		if(!isTextEmpty(textElement) || !pressEnter(textElement)){
-			return false;
-		}
-		ApiTodo.add({ text : userText });
-		textElement.target.value="";
-	};
+		return new Promise( (resolve, reject) =>{
+			if(!isTextEmpty(textElement) || !pressEnter(textElement)){
+				return false;
+			}
+
+			ApiTodo.add({ text : userText });
+			textElement.target.value="";
+			resolve("Data connection Success");
+		});
+	}
 
 	const isTextEmpty = (evt)=>{
 		let userText = evt.target.value;
