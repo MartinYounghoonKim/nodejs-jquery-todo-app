@@ -1,16 +1,19 @@
 define([
 	'jquery'
 	,'ApiTodo'
-], function($, ApiTodo){
+	,'handlebars'
+], function($, ApiTodo, Handlebars){
 	const renderingTodos = (options)=>{
-		const templeteDom = options.templeteDom
 		const bindingTarget = options.bindingTarget;
 		const checkCompletedAllFunction = options.checkCompletedAllFunction;
-		bindingTarget.children("li").remove();
-		ApiTodo.render({
-			templeteDom : templeteDom,
-			bindingTarget : bindingTarget,
-			checkCompletedAllFunction : checkCompletedAllFunction
+		ApiTodo.render()
+		.then(function(data){
+			console.log(data);
+			const templeteDom = options.templeteDom;
+			const templete = Handlebars.compile(templeteDom);
+			const preparedDom = templete(data);
+			bindingTarget.html(preparedDom);
+			checkCompletedAllFunction();
 		});
 	}
 	return renderingTodos;

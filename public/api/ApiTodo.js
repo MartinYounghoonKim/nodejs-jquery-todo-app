@@ -1,29 +1,20 @@
 define([
     'jquery'
     ,'ApiCore'
-    ,'handlebars'
-], function($, ApiCore, Handlebars){
+], function($, ApiCore){
     const renderingApiUrl = {
         all : '/api/Todos/All',
         active : '/api/Todos/Active',
         completed : '/api/Todos/Completed'
     }
     const getData = {
-        render:(options)=>{
-            const todoDom = options.templeteDom;
-            const templete = Handlebars.compile(todoDom);
-            const bindingTarget = options.bindingTarget;
-            const checkCompletedAllFunction = options.checkCompletedAllFunction;
-            //renderingApiUrl
-
-            removeTodoList( bindingTarget.children("li") );
+        render:(options)=> new Promise((resolve)=>{
             ApiCore('GET','/api/Todos','JSON','')
             .then(function(data){
-                const preparedDom = templete(data);
-    			bindingTarget.append(preparedDom);
-                checkCompletedAllFunction();
+                resolve(data)
             });
-        },
+
+        }),
         add:(options)=>{
             const userText =options.text;
             ApiCore('POST','/api/Todos','Text',{text:userText});
