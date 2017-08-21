@@ -41,7 +41,8 @@ define([
                 deleteTodoButton : dom.deleteTodoButton,
                 completeCheckBox : dom.completeCheckBox,
                 completeAllCheckBox : $(dom.completeAllCheckBox),
-                filterButton : $(dom.filterButton)
+                filterButton : $(dom.filterButton),
+                todoContents : dom.todoContents
             }
         }
 
@@ -52,6 +53,7 @@ define([
             $(document).on("click", obj.deleteTodoButton, function(){ deleteTodoList($(this))} );
             $(document).on("click", obj.completeCheckBox, function(){ toggleCompleted($(this)) } );
             obj.completeAllCheckBox.on("click",function(){ checkCompleteAll($(this)) });
+            $(document).on("dblclick", obj.todoContents, function(){ startEditing( $(this) ) });
         }
 
         const renderingTodoList =(filter)=>{
@@ -74,7 +76,7 @@ define([
                 bindingTarget : obj.todoListWrapper
             })
             .then( (data)=>{
-                renderingTodoList();
+                renderingTodoList("active");
             })
         }
 
@@ -136,6 +138,15 @@ define([
                     $(this).addClass("selected")
                 }
             })
+        }
+
+        const startEditing = ($labelElement)=>{
+            const textValue = $labelElement.text();
+            const todoList = getParentElement($labelElement).parentElement;
+            const textBox = todoList.children(".edit");
+            
+            todoList.addClass("editing");
+            textBox.val(textValue).focus();
         }
 
         return {

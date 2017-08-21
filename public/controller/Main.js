@@ -9,7 +9,8 @@ define([], function(){
             'deleteTodoButton' : '.destroy',
             'completeCheckBox':'.view .toggle',
             'completeAllCheckBox' : "#toggle-all",
-            'filterButton' : '[data-filter]'
+            'filterButton' : '[data-filter]',
+            'todoContents' : '.view label'
         })
     });
 })
