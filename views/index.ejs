@@ -9,9 +9,41 @@
 	</head>
 	<body data-reference=<%= pageInformation %> >
 		<section id="todoapp">
-			<%- partial('./partial/header.ejs') %>
-			<%- partial('./partial/contents.ejs') %>
-			<%- partial('./partial/footer.ejs') %>
+			<header id="header">
+				<h1>todos</h1>
+				<input id="new-todo" placeholder="What needs to be done?" autofocus>
+			</header>
+			<section id="main">
+				<input id="toggle-all" type="checkbox">
+				<label for="toggle-all">Mark all as complete</label>
+				<ul id="todo-list"></ul>
+				<script id="todo-dom" type="text/x-handlebars-template">
+					{{#Todos}}
+					<li data-primary-key={{idx}} class="{{#if isCompleted}}completed{{/if}}">
+						<div class="view">
+							<input class="toggle" type="checkbox" {{#if isCompleted}}checked{{/if}}>
+							<label>{{todo}}</label>
+							<button class="destroy"></button>
+						</div>
+						<input class="edit" value="dd">
+					</li>
+					{{/Todos}}
+				</script>
+			</section>
+			<footer id="footer">
+			        <span id="todo-count"><strong><%=test%></strong> items left</span>
+			        <ul id="filters">
+						<li>
+							<a class="selected" href="#/all">All</a>
+						</li>
+						<li>
+							<a href="#/active">Active</a>
+						</li>
+						<li>
+							<a href="#/completed">Completed</a>
+						</li>
+					</ul>
+			</footer>
 		</section>
 		<footer id="info">
 			<p>Double-click to edit a todo</p>
