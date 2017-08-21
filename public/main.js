@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: './',
+    baseUrl: '/',
     paths:{
         'jquery': 'lib/jquery-1.9.1.min'
         ,'handlebars' : 'lib/handlebars-v4.0.5'
@@ -15,6 +15,7 @@ requirejs.config({
         ,'renderingTodos' : 'module/renderingTodos'
         ,'deleteTodo' : 'module/deleteTodo'
         ,'checkCompleted' : 'module/checkCompleted'
+        ,'filter' : 'module/filter'
     },
     shim:{
         'jquery':{

@@ -29,7 +29,8 @@ define([
                 userTextingArea : $(dom.userTextingArea),
                 deleteTodoButton : dom.deleteTodoButton,
                 completeCheckBox : dom.completeCheckBox,
-                completeAllCheckBox : $(dom.completeAllCheckBox)
+                completeAllCheckBox : $(dom.completeAllCheckBox),
+                filterButton : $(dom.filterButton)
             }
         }
 
@@ -40,6 +41,9 @@ define([
             $(document).on("click", obj.deleteTodoButton, function(){ deleteTodoList($(this))} );
             $(document).on("click", obj.completeCheckBox, function(){ toggleCompleted($(this)) } );
             obj.completeAllCheckBox.on("click",function(){ checkCompleteAll($(this)) })
+            obj.filterButton.on("click", function(e){
+                filteringTodos( $(this) );
+            });
         }
 
         const renderingTodoList =()=>{
@@ -112,6 +116,11 @@ define([
                     todoList : todoList
                 });
             });
+        }
+
+        const filteringTodos= ($buttonElement)=>{
+            const filterFlag = $buttonElement.data("filter");
+            
         }
 
         return {

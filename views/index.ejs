@@ -3,14 +3,14 @@
 	<head>
 		<meta charset="utf-8">
 		<title>jQuery TodoMVC</title>
-		<link rel="stylesheet" href="./components/header.css">
-		<link rel="stylesheet" href="./components/contents.css">
-		<link rel="stylesheet" href="./components/footer.css">
+		<link rel="stylesheet" href="/components/header.css">
+		<link rel="stylesheet" href="/components/contents.css">
+		<link rel="stylesheet" href="/components/footer.css">
 	</head>
 	<body data-reference=<%= pageInformation %> >
 		<section id="todoapp">
 			<header id="header">
-				<h1>todos</h1>
+				<!-- <h1>todos</h1> -->
 				<input id="new-todo" placeholder="What needs to be done?" autofocus>
 			</header>
 			<section id="main">
@@ -31,20 +31,14 @@
 				</script>
 			</section>
 			<footer id="footer">
-					<script type="text/x-handlebars-template" id="footerTemplate">
-						<span id="todo-count"><strong>0</strong> items left</span>
-						<ul id="filters">
-							<li>
-								<a class="selected" href="#/all">All</a>
-							</li>
-							<li>
-								<a href="#/active">Active</a>
-							</li>
-							<li>
-								<a href="#/completed">Completed</a>
-							</li>
-						</ul>
-					</script>
+				<script type="text/x-handlebars-template" id="footerTemplate">
+					<span id="todo-count"><strong>0</strong> items left</span>
+				</script>
+				<ul id="filters">
+					<li><a <% if(filter==="All"){ %>class="selected"<% } %> href="/view/All" data-filter="all">All</a></li>
+					<li><a href="/view/Active" data-filter="active" <% if(filter==="Active"){ %>class="selected"<% } %>>Active</a></li>
+					<li><a href="/view/Completed" data-filter="completed" <% if(filter==="Completed"){ %>class="selected"<% } %>>Completed</a></li>
+				</ul>
 			</footer>
 		</section>
 		<footer id="info">
@@ -52,6 +46,6 @@
 			<p>Created by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
 			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 		</footer>
-		<script data-main="./main" src="./lib/require.js"></script>
+		<script data-main="/main" src="/lib/require.js"></script>
 	</body>
 </html>

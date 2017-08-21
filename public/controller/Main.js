@@ -8,7 +8,8 @@ define([], function(){
             'userTextingArea' : '#new-todo',
             'deleteTodoButton' : '.destroy',
             'completeCheckBox':'.view .toggle',
-            'completeAllCheckBox' : "#toggle-all"
+            'completeAllCheckBox' : "#toggle-all",
+            'filterButton' : '[data-filter]'
         })
     });
 })

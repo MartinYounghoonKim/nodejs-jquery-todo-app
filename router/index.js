@@ -1,6 +1,10 @@
 module.exports = (app,bodyParser, connection)=>{
     app.get('/',(req,res)=>{
-		res.render('index.ejs',{pageInformation:"Main"});
+		res.redirect('/view/All')
+    });
+    app.get('/view/:filter',(req,res)=>{
+        const todosFilter = req.params.filter;
+		res.render('index.ejs',{ pageInformation:"Main", filter : todosFilter });
     });
     app.get('/api/Todos',(req,res)=>{
         let selectQuery = 'SELECT * FROM todos';

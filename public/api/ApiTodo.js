@@ -3,12 +3,18 @@ define([
     ,'ApiCore'
     ,'handlebars'
 ], function($, ApiCore, Handlebars){
+    const renderingApiUrl = {
+        all : '/api/Todos/All',
+        active : '/api/Todos/Active',
+        completed : '/api/Todos/Completed'
+    }
     const getData = {
         render:(options)=>{
             const todoDom = options.templeteDom;
             const templete = Handlebars.compile(todoDom);
             const bindingTarget = options.bindingTarget;
             const checkCompletedAllFunction = options.checkCompletedAllFunction;
+            //renderingApiUrl
 
             removeTodoList( bindingTarget.children("li") );
             ApiCore('GET','/api/Todos','JSON','')
