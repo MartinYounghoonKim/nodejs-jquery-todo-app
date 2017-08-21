@@ -42,12 +42,15 @@ define([
             obj.completeAllCheckBox.on("click",function(){ checkCompleteAll($(this)) })
         }
 
-        function renderingTodoList(){
+        const renderingTodoList =()=>{
             renderingTodos({
                 templeteDom : obj.todoDom.html(),
                 bindingTarget : obj.todoListWrapper,
                 checkCompletedAllFunction : autoCheckedCompletedAll
             });
+        }
+        const renderingFooter = ()=>{
+            // TODO: 하단 Footer 영역 랜더링 추가
         }
         const addTodo = (evt) =>{
             addTodos({
@@ -110,6 +113,7 @@ define([
                 });
             });
         }
+
         return {
             initialize :initialize
         }
