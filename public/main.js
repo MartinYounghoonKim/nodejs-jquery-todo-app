@@ -3,6 +3,7 @@ requirejs.config({
     paths:{
         'jquery': 'lib/jquery-1.9.1.min'
         ,'handlebars' : 'lib/handlebars-v4.0.5'
+        ,'director' :  'lib/director.min'
 
         //Controller
         ,'Main' : 'controller/Main'

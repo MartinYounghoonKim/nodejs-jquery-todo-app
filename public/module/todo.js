@@ -1,5 +1,6 @@
 define([
     'jquery'
+    ,'director'
     ,'handlebars'
     ,'addTodos'
     ,'renderingTodos'
@@ -7,19 +8,29 @@ define([
     ,'checkCompleted'
 ], function(
     $
+    ,director
     ,Handlebars
     ,addTodos
     ,renderingTodos
     ,deleteTodo
     ,checkCompleted
 ){
-    (function(){}())
+
     var todo = (function(){
         let obj, selector;
         const initialize = (dom) =>{
             setSelector(dom);
             bindEvents();
-            renderingTodoList();
+            filteringRouter();
+        }
+
+        const filteringRouter = ()=>{
+            new Router({
+				'/:filter': function (filter) {
+					renderingTodoList(filter);
+                    activeFilterButton(filter);
+				}
+			}).init('/all');
         }
 
         const setSelector = (dom) =>{
@@ -40,17 +51,17 @@ define([
             });
             $(document).on("click", obj.deleteTodoButton, function(){ deleteTodoList($(this))} );
             $(document).on("click", obj.completeCheckBox, function(){ toggleCompleted($(this)) } );
-            obj.completeAllCheckBox.on("click",function(){ checkCompleteAll($(this)) })
-            obj.filterButton.on("click", function(e){
-                filteringTodos( $(this) );
-            });
+            obj.completeAllCheckBox.on("click",function(){ checkCompleteAll($(this)) });
         }
 
-        const renderingTodoList =()=>{
+        const renderingTodoList =(filter)=>{
+            let todosFilter =filter;
+
             renderingTodos({
                 templeteDom : obj.todoDom.html(),
                 bindingTarget : obj.todoListWrapper,
-                checkCompletedAllFunction : autoCheckedCompletedAll
+                checkCompletedAllFunction : autoCheckedCompletedAll,
+                filter : todosFilter
             });
         }
         const renderingFooter = ()=>{
@@ -118,9 +129,13 @@ define([
             });
         }
 
-        const filteringTodos= ($buttonElement)=>{
-            const filterFlag = $buttonElement.data("filter");
-            
+        const activeFilterButton = (filter)=>{
+            obj.filterButton.removeClass("selected");
+            obj.filterButton.each(function(){
+                if($(this).data('filter') === filter){
+                    $(this).addClass("selected")
+                }
+            })
         }
 
         return {

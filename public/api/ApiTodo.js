@@ -3,17 +3,16 @@ define([
     ,'ApiCore'
 ], function($, ApiCore){
     const renderingApiUrl = {
-        all : '/api/Todos/All',
-        active : '/api/Todos/Active',
-        completed : '/api/Todos/Completed'
+        all : '/api/Todos/all',
+        active : '/api/Todos/active',
+        completed : '/api/Todos/completed'
     }
     const getData = {
-        render:(options)=> new Promise((resolve)=>{
-            ApiCore('GET','/api/Todos','JSON','')
+        render:(filter)=> new Promise((resolve)=>{
+            ApiCore('GET',renderingApiUrl[filter],'JSON','')
             .then(function(data){
                 resolve(data)
             });
-
         }),
         add:(options)=>{
             const userText =options.text;

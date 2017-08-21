@@ -1,13 +1,24 @@
 module.exports = (app,bodyParser, connection)=>{
     app.get('/',(req,res)=>{
-		res.redirect('/view/All')
+		res.render('index.ejs',{ pageInformation:"Main" });
     });
+    /*
     app.get('/view/:filter',(req,res)=>{
         const todosFilter = req.params.filter;
 		res.render('index.ejs',{ pageInformation:"Main", filter : todosFilter });
-    });
-    app.get('/api/Todos',(req,res)=>{
-        let selectQuery = 'SELECT * FROM todos';
+    });*/
+    app.get('/api/Todos/:filter',(req,res)=>{
+        const filter = req.params.filter;
+        let selectQuery = "";
+        switch(filter) {
+            case 'all' : selectQuery = 'SELECT * FROM todos';
+            break;
+            case 'completed' : selectQuery = 'SELECT * FROM todos WHERE isCompleted=1';
+            break;
+            case 'active' : selectQuery = 'SELECT * FROM todos WHERE isCompleted=0';
+            break;
+        }
+
         connection.query(selectQuery, (err,result, fields)=>{
             if(err){
                 console.log(err);
