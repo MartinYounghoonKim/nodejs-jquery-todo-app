@@ -10,7 +10,8 @@ define([], function(){
             'completeCheckBox':'.view .toggle',
             'completeAllCheckBox' : "#toggle-all",
             'filterButton' : '[data-filter]',
-            'todoContents' : '.view label'
+            'todoContents' : '.view label',
+            'todoEditText' : '.edit'
         })
     });
 })

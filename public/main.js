@@ -17,6 +17,7 @@ requirejs.config({
         ,'deleteTodo' : 'module/deleteTodo'
         ,'checkCompleted' : 'module/checkCompleted'
         ,'filter' : 'module/filter'
+        ,'editTodo' : 'module/editTodo'
     },
     shim:{
         'jquery':{

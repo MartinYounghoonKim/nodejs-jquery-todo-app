@@ -46,7 +46,16 @@ define([
             const isCompleteAllTodo = completeTodo;
 
             ApiCore('POST','/api/CheckTodoAll','Text', { isCompleted:isCompleteAllTodo })
-        }
+        },
+        editTodo:(options)=> new Promise((resolve)=>{
+            const primaryKey = options.primaryKey;
+            const editedText = options.editedText;
+
+            ApiCore('POST','/api/EditTodo','Text', { idx : primaryKey, todo :editedText })
+            .then(()=>{
+                resolve("test");
+            });
+        })
     }
 
     const removeTodoList = (removeTarget)=>{

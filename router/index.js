@@ -68,6 +68,20 @@ module.exports = (app,bodyParser, connection)=>{
             }
         })
     });
+    app.post('/api/EditTodo',(req,res)=>{
+        let todo = req.body.todo;
+        let idx = req.body.idx;
+        let updateQuery='UPDATE todos SET todo=? WHERE idx=?';
+        
+        connection.query(updateQuery,[todo, idx],(err, result, fields)=>{
+            if(err){
+                console.log(err);
+                res.status(500).send("Error");
+            } else {
+                res.send(result);
+            }
+        })
+    });
     app.get('/api/CheckTodoAll', (req,res)=>{
         let selectQuery = 'SELECT isCompleted FROM todos WHERE isCompleted=1';
         connection.query(selectQuery, (err,result,fields)=>{

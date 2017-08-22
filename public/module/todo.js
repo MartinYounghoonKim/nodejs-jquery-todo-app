@@ -6,6 +6,7 @@ define([
     ,'renderingTodos'
     ,'deleteTodo'
     ,'checkCompleted'
+    ,'editTodo'
 ], function(
     $
     ,director
@@ -14,6 +15,7 @@ define([
     ,renderingTodos
     ,deleteTodo
     ,checkCompleted
+    ,editTodo
 ){
 
     var todo = (function(){
@@ -42,7 +44,8 @@ define([
                 completeCheckBox : dom.completeCheckBox,
                 completeAllCheckBox : $(dom.completeAllCheckBox),
                 filterButton : $(dom.filterButton),
-                todoContents : dom.todoContents
+                todoContents : dom.todoContents,
+                todoEditText : dom.todoEditText
             }
         }
 
@@ -50,10 +53,12 @@ define([
             obj.userTextingArea.on("keydown", function(e){
                 addTodo(e);
             });
-            $(document).on("click", obj.deleteTodoButton, function(){ deleteTodoList($(this))} );
+            $(document).on("click", obj.deleteTodoButton, function(){ deleteTodoList($(this), this)} );
             $(document).on("click", obj.completeCheckBox, function(){ toggleCompleted($(this)) } );
             obj.completeAllCheckBox.on("click",function(){ checkCompleteAll($(this)) });
-            $(document).on("dblclick", obj.todoContents, function(){ startEditing( $(this) ) });
+            obj.todoListWrapper
+                .on("dblclick", obj.todoContents, function(){ startEditing( $(this) ) })
+                .on("focusout", obj.todoEditText, finishEditing.bind(this) );
         }
 
         const renderingTodoList =(filter)=>{
@@ -80,7 +85,8 @@ define([
             })
         }
 
-        const deleteTodoList = ($buttonElement) =>{
+        const deleteTodoList = ($buttonElement, me) =>{
+            console.log(me)
             const primaryKey =  getParentElement($buttonElement).primaryKey;
             deleteTodo({
                 primaryKey : primaryKey,
@@ -144,9 +150,23 @@ define([
             const textValue = $labelElement.text();
             const todoList = getParentElement($labelElement).parentElement;
             const textBox = todoList.children(".edit");
-            
+
             todoList.addClass("editing");
             textBox.val(textValue).focus();
+        }
+
+        const finishEditing = (e) =>{
+            const editedTextElement = e.target;
+            const editedText = editedTextElement.value;
+            const todoList = $(editedTextElement.parentNode);
+            const primaryKey = todoList.data("primary-key");
+
+            editTodo({
+                editedText : editedText,
+                todoList : todoList,
+                primaryKey : primaryKey
+            });
+            //editedTextElement.blur();
         }
 
         return {
