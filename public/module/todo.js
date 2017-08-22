@@ -19,7 +19,7 @@ define([
 ){
 
     var todo = (function(){
-        let obj, selector;
+        let obj, selector, todoFilter;
         const initialize = (dom) =>{
             setSelector(dom);
             bindEvents();
@@ -29,8 +29,9 @@ define([
         const filteringRouter = ()=>{
             new Router({
 				'/:filter': function (filter) {
-					renderingTodoList(filter);
-                    activeFilterButton(filter);
+                    todoFilter =filter;
+					renderingTodoList();
+                    activeFilterButton();
 				}
 			}).init('/all');
         }
@@ -58,17 +59,16 @@ define([
             obj.completeAllCheckBox.on("click",function(){ checkCompleteAll($(this)) });
             obj.todoListWrapper
                 .on("dblclick", obj.todoContents, function(){ startEditing( $(this) ) })
-                .on("focusout", obj.todoEditText, finishEditing.bind(this) );
+                .on("focusout", obj.todoEditText, finishEditing )
+                .on("keyup", obj.todoEditText, isEditCompleted );
         }
 
-        const renderingTodoList =(filter)=>{
-            let todosFilter =filter;
-
+        const renderingTodoList =()=>{
             renderingTodos({
                 templeteDom : obj.todoDom.html(),
                 bindingTarget : obj.todoListWrapper,
                 checkCompletedAllFunction : autoCheckedCompletedAll,
-                filter : todosFilter
+                filter : todoFilter
             });
         }
         const renderingFooter = ()=>{
@@ -86,7 +86,6 @@ define([
         }
 
         const deleteTodoList = ($buttonElement, me) =>{
-            console.log(me)
             const primaryKey =  getParentElement($buttonElement).primaryKey;
             deleteTodo({
                 primaryKey : primaryKey,
@@ -137,10 +136,10 @@ define([
             });
         }
 
-        const activeFilterButton = (filter)=>{
+        const activeFilterButton = ()=>{
             obj.filterButton.removeClass("selected");
             obj.filterButton.each(function(){
-                if($(this).data('filter') === filter){
+                if($(this).data('filter') === todoFilter){
                     $(this).addClass("selected")
                 }
             })
@@ -166,7 +165,15 @@ define([
                 todoList : todoList,
                 primaryKey : primaryKey
             });
-            //editedTextElement.blur();
+            renderingTodoList();
+        }
+        const isEditCompleted = (e)=>{
+            const enterKeyCode = 13;
+
+            if(e.keyCode !== enterKeyCode) {
+                return false;
+            }
+            finishEditing(e);
         }
 
         return {
