@@ -103,9 +103,9 @@ define([
         const toggleCompleted = ($checkboxElement)=>{
             const primaryKey = getParentElement($checkboxElement).primaryKey;
             const todoList = getParentElement($checkboxElement).parentElement;
-
             checkCompleted.completedTodo(todoList, primaryKey);
             autoCheckedCompletedAll();
+            renderingTodoList();
         }
 
         const autoCheckedCompletedAll = () =>{
